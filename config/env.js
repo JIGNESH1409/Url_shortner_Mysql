@@ -7,5 +7,4 @@ export const env=z.object({
     DATABASE_PASSWORD:z.string(),
     DATABASE_NAME:z.string(),
     DATABASE_PORT: z.string(),
-
 }).parse(process.env);
