@@ -11,14 +11,16 @@ export const userCheckExist=async(email)=>{
 }
 
 export const createUser =async (name,email,hashedpassword)=>{
-    return await db
+    const [createdUser] = await db
     .insert(usersTable)
     .values({
         name,
         email,
         password:hashedpassword
     })
-    .$returningId();
+    .returning({ id: usersTable.id });
+
+    return createdUser;
 }
 
 export const hashPassword=async(password)=>{
@@ -64,7 +66,7 @@ export const createSession = async(userID,{ip,userAgent})=>{
         userID,
         ip,
         userAgent
-    }).$returningId();
+    }).returning({ id: sessionsTable.id });
     return session;
 }
 
