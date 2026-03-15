@@ -1,13 +1,27 @@
 import {drizzle} from 'drizzle-orm/mysql2';
 import mysql from 'mysql2/promise';
 
-// Support both DATABASE_URL and individual connection parameters
+// Parse DATABASE_URL in format: mysql://user:password@host:port/database
+const parseDatabaseUrl = (url) => {
+    const dbUrl = new URL(url);
+    return {
+        host: dbUrl.hostname,
+        user: dbUrl.username,
+        password: dbUrl.password,
+        database: dbUrl.pathname.slice(1),
+        port: parseInt(dbUrl.port || '3306'),
+    };
+};
+
 const getDatabaseConfig = () => {
     const databaseUrl = process.env.DATABASE_URL;
     
     if (databaseUrl) {
-        // Parse DATABASE_URL format: mysql://user:password@host:port/database
-        return { connectionString: databaseUrl };
+        try {
+            return parseDatabaseUrl(databaseUrl);
+        } catch (error) {
+            console.error('Failed to parse DATABASE_URL:', error);
+        }
     }
     
     // Fallback to individual parameters for local development
