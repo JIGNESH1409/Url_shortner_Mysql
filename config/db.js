@@ -1,40 +1,20 @@
-import {drizzle} from 'drizzle-orm/mysql2';
-import mysql from 'mysql2/promise';
+import { drizzle } from 'drizzle-orm/node-postgres';
+import { Pool } from 'pg';
 
-// Parse DATABASE_URL in format: mysql://user:password@host:port/database
-const parseDatabaseUrl = (url) => {
-    const dbUrl = new URL(url);
-    return {
-        host: dbUrl.hostname,
-        user: dbUrl.username,
-        password: dbUrl.password,
-        database: dbUrl.pathname.slice(1),
-        port: parseInt(dbUrl.port || '3306'),
-    };
-};
-
-const getDatabaseConfig = () => {
-    const databaseUrl = process.env.DATABASE_URL;
-    
-    if (databaseUrl) {
-        try {
-            return parseDatabaseUrl(databaseUrl);
-        } catch (error) {
-            console.error('Failed to parse DATABASE_URL:', error);
-        }
+const getDatabaseUrl = () => {
+    if (process.env.DATABASE_URL) {
+        console.log('[DB] Using cloud database (Supabase)');
+        return process.env.DATABASE_URL;
     }
     
-    // Fallback to individual parameters for local development
-    return {
-        host: process.env.DB_HOST || 'localhost',
-        user: process.env.DB_USER || 'root',
-        password: process.env.DB_PASSWORD || '',
-        database: process.env.DB_NAME || 'url_shortener_drizzle',
-        port: parseInt(process.env.DB_PORT || '3306'),
-    };
+    // Fallback to local PostgreSQL for development
+    const localUrl = `postgresql://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || ''}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'url_shortener'}`;
+    console.log('[DB] Using local database');
+    return localUrl;
 };
 
-const config = getDatabaseConfig();
-const pool = mysql.createPool(config);
-
+const databaseUrl = getDatabaseUrl();
+console.log('[DB] Connecting to database...');
+const pool = new Pool({ connectionString: databaseUrl, ssl: { rejectUnauthorized: false } });
 export const db = drizzle(pool);
+console.log('[DB] ✅ Database initialized');
