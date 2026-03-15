@@ -21,9 +21,18 @@ app.set("view engine", "ejs");
 
 app.use(cookieParser());
 
-app.use(
-  session({ secret: "my-secret", resave: true, saveUninitialized: false })
-);
+const sessionConfig = {
+  secret: process.env.SESSION_SECRET || "my-secret",
+  resave: false,
+  saveUninitialized: false,
+  cookie: { 
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+};
+
+app.use(session(sessionConfig));
 app.use(flash());
 // This must be after cookieParser middleware.
 
@@ -32,6 +41,7 @@ app.use(verifyAuthentication);
 
 app.use((req, res, next) => {
   res.locals.user = req.user;
+  res.locals.isLoggedIn = !!req.user;
   return next();
 });
 
@@ -42,16 +52,27 @@ app.use((req, res, next) => {
 //? Views (like EJS, Pug, or Handlebars) can directly access user without manually passing it in every route.
 
 // express router
-// app.use(router);
+app.get("/", (req, res) => {
+  if(req.user) {
+    return res.render("index");
+  }
+  res.redirect("/login");
+});
+
 app.use(authRouter);
 app.use(shorturlRouter);
 
+// 404 handler
+app.use((req, res) => {
+  res.status(404).send("Not Found");
+});
+
 // Global error handler
 app.use((err, req, res, next) => {
-  console.error("Global Error Handler:", err);
-  res.status(err.status || 500).render("error", { 
-    message: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message 
-  });
+  console.error("Error:", err);
+  const statusCode = err.statusCode || 500;
+  const message = process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message;
+  res.status(statusCode).send(message);
 });
 
 app.listen(PORT, () => {
