@@ -6,6 +6,7 @@ import session from "express-session";
 import express from "express";
 import { shorturlRouter } from "./routes/Shortner.route.js";
 import { authRouter } from "./routes/auth.route.js";
+import { ensureDatabaseSchema } from "./config/db.js";
 
 import { verifyAuthentication } from "./middleware/vertify-auth-middleware.js";
 
@@ -75,6 +76,17 @@ app.use((err, req, res, next) => {
   res.status(statusCode).send(message);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await ensureDatabaseSchema();
+    console.log("[DB] ✅ Schema check complete");
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to initialize database schema:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

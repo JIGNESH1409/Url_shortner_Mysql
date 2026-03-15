@@ -12,9 +12,11 @@ router.post('/', postShortnerController);
 
 router.get('/edit/:id', getEditShortnerPage);
 
+router.route("/delete/:id").post(deleteShortUrl)
+
+router.get('/favicon.ico', (req, res) => res.status(204).end());
+
 // keep /:shortcode LAST — it matches any single-segment path
 router.get("/:shortcode", RendertoshortUrlController);
-
-router.route("/delete/:id").post(deleteShortUrl)
 
 export { router as shorturlRouter };
