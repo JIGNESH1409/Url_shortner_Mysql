@@ -1,0 +1,32 @@
+{
+  "name": "shorturl",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+  "dev": "node --env-file=.env --watch app.js",
+  "start": "node --env-file=.env app.js",
+  "db:generate": "drizzle-kit generate",
+  "db:migrate": "drizzle-kit migrate",
+  "db:studio": "drizzle-kit studio"
+},
+
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.1.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.16.1",
+    "zod": "^4.3.5"
+  },
+  "description": "🔗 URL Shortener (live demo-https://url-shortner-5-ag8u.onrender.com/)",
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "drizzle-kit": "^0.31.8"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1768881716804,
+      "tag": "0000_goofy_madame_masque",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1770955249138,
+      "tag": "0001_fine_unus",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1771655509086,
+      "tag": "0002_needy_human_torch",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1771696432588,
+      "tag": "0003_low_pestilence",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1773229035576,
+      "tag": "0004_stormy_goliath",
+      "breakpoints": true
+    }
+  ]
+}

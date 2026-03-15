@@ -4,21 +4,37 @@
   "type": "module",
   "main": "app.js",
   "scripts": {
-    "dev": "node --watch app.js",
-    "start": "node app.js"
+    "dev": "node --env-file=.env --watch app.js",
+    "start": "node --env-file=.env app.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "license": "ISC",
   "dependencies": {
+    "argon2": "^0.44.0",
+    "connect-flash": "^0.1.1",
+    "cookie": "^1.1.1",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
     "ejs": "^3.1.10",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "flash": "^1.1.0",
+    "jsonwebtoken": "^9.0.3",
     "mongodb": "^7.0.0",
     "mongoose": "^9.1.2",
     "mysql": "^2.18.1",
-    "mysql2": "^3.16.0",
-    "zod": "^4.3.5"
+    "mysql2": "^3.16.1",
+    "parser": "^0.1.4",
+    "request-ip": "^3.3.0",
+    "zod": "^4.3.6"
   },
   "description": "🔗 URL Shortener (live demo-https://url-shortner-5-ag8u.onrender.com/)",
   "keywords": [],
-  "author": ""
+  "author": "",
+  "devDependencies": {
+    "drizzle-kit": "^0.31.8"
+  }
 }

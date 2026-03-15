@@ -1,0 +1,24 @@
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a href="/" class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">Welcome</span>
+    </a>
+
+    <ul class="navbar-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="#section2">About</a></li>
+      <li><a href="#section4">Contact</a></li>
+    </ul>
+
+    <div class="navbar-actions">
+      <% if (!user) { %>
+      <a href="/login" class="btn-nav login-btn">Log In</a>
+      <a href="/register" class="btn-nav register-btn">Get Started</a>
+      <% } else { %>
+      <a href="/logout" class="btn-nav logout-btn">Logout</a>
+      <% } %>
+    </div>
+  </div>
+</nav>

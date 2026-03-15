@@ -1,250 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <!-- ZMDI Material Design Iconic Font CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/css/material-design-iconic-font.min.css"
+    />
     <title>URL Shortener</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  </head>
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+  <body>
+    <%- include('./partials/header.ejs') %>
 
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-        }
-
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-            font-size: 2.5rem;
-            font-weight: 300;
-        }
-
-        .emoji {
-            font-size: 3rem;
-            display: block;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: 500;
-        }
-
-        input[type="url"], input[type="text"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        input[type="url"]:focus, input[type="text"]:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .result {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            display: none;
-            border-left: 4px solid #667eea;
-        }
-
-        .result.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .result h3 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .short-url {
-            background: white;
-            padding: 12px;
-            border-radius: 5px;
-            border: 1px solid #dee2e6;
-            font-family: 'Courier New', monospace;
-            color: #667eea;
-            font-weight: bold;
-            word-break: break-all;
-            margin-bottom: 10px;
-        }
-
-        .copy-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background 0.3s ease;
-        }
-
-        .copy-btn:hover {
-            background: #218838;
-        }
-
-        .copy-btn.copied {
-            background: #17a2b8;
-        }
-
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border-left: 4px solid #dc3545;
-            display: none;
-        }
-
-        .error.show {
-            display: block;
-            animation: slideIn 0.3s ease;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        @media (max-width: 480px) {
-            .container {
-                padding: 30px 20px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <span class="emoji">🔗</span>
-        <h1>URL Shortener</h1>
-        
-        <form action="/" method="post">
-            <div class="form-group">
-                <label for="url">Enter the URL to shorten:</label>
-                <input type="url" id="url" name="url" placeholder="https://example.com/very-long-url" required>
+    <div class="main">
+      <section class="url-shortener">
+        <div class="container">
+          <div class="shortener-content">
+            <div class="user-status">
+              <% if(user) { %>
+              <div class="status-badge success">
+                <i class="zmdi zmdi-check-circle"></i>
+                <span>You are logged in</span>
+              </div>
+              <% } else { %>
+              <div class="status-badge warning">
+                <i class="zmdi zmdi-alert-circle"></i>
+                <span>You are not logged in</span>
+              </div>
+              <% } %>
             </div>
-            
-            <div class="form-group">
-                <label for="urlshorten">Custom short name (optional):</label>
-                <input type="text" id="urlshorten" name="urlshorten" placeholder="my-custom-link">
-            </div>
-            
-            <button type="submit" class="btn">🚀 Shorten URL</button>
-        </form>
 
-                <h2>RECENTLY SHORTENED URLS</h2>
-                <ul>
-                    <% if (Array.isArray(link) && link.length) { %>
-                        <% link.forEach(function(item) { %>
-                            <li>
-                                <a href="/<%= item.shorturl %>" target="_blank" rel="noopener noreferrer"><%= host %>/<%= item.shorturl %></a>
-                                - <%= item.url %>
-                            </li>
-                        <% }) %>
-                    <% } else { %>
-                        <li>No recent links</li>
-                    <% } %>
-                </ul>
-        
+            <div class="shortener-form">
+              <h1 class="form-title">URL Shortener</h1>
+              <form action="/" method="post" class="url-form" id="url-form">
+                <div class="form-group">
+                  <label for="url">
+                    <i class="zmdi zmdi-link"></i>
+                  </label>
+                  <input
+                    type="url"
+                    name="url"
+                    id="url"
+                    placeholder="Enter URL"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="shortCode">
+                    <i class="zmdi zmdi-code"></i>
+                  </label>
+                  <input
+                    type="text"
+                    name="shortCode"
+                    id="shortCode"
+                    placeholder="Enter custom short code"
+                    required
+                  />
+                </div>
+
+                 <% if (typeof errors !== 'undefined' && errors && errors.length > 0) { %> <%
+                errors.forEach((error) => { %>
+                <p class="flash-error"><%= error %></p>
+                <% }); %> <% } %>
+
+
+                <div class="form-group form-button">
+                  <input
+                    type="submit"
+                    name="shorten"
+                    id="shorten"
+                    class="form-submit"
+                    value="Shorten"
+                  />
+                </div>
+              </form>
+            </div>
+
+            <div class="shortened-urls">
+              <h2 class="section-title">Shortened URLs</h2>
+              <% if(links && links.length > 0) { %>
+              <ul class="url-list">
+                <% links.map(({id, shortCode, url}) => { %> <% const truncatedUrl =
+                url.length >= 30 ? `${url.slice(0,30)}...` : url %>
+                <li class="url-item">
+                  <div class="url-info">
+                    <a
+                      href="/<%= shortCode %>"
+                      class="short-url"
+                      target="_blank"
+                    >
+                      <i class="zmdi zmdi-link"></i>
+                      <%= host %>/<%= shortCode %>
+                    </a>
+                    <span class="original-url"><%= truncatedUrl %></span>
+                  </div>
+                  <div class="url-actions">
+                    <button class="copy-btn edit-btn">
+                    <a href="/edit/<%= id %>" class="edit-btn">
+                      <i class="zmdi zmdi-edit"></i>
+                    </a>
+                    </button>
+                    <button
+                      class="copy-btn"
+                      data-url="<%= host %>/<%= shortCode %>"
+                    >
+                      <i class="zmdi zmdi-copy"></i>
+                    </button>
+
+                    <form action="/delete/<%=id%>" method="post">
+                      <button class="copy-btn edit-btn">
+                      <i class="zmdi zmdi-delete"></i>
+                    </a>
+                    </button>
+
+
+                    </form>
+
+
+                  </div>
+                </li>
+                <% }) %>
+              </ul>
+              <% } else { %>
+              <p class="empty-list">
+                No shortened URLs yet. Create your first one above!
+              </p>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
-</body>
+    <%- include('./partials/footer.ejs') %>
 
+    <script>
+      // Simple copy to clipboard functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const copyButtons = document.querySelectorAll(".copy-btn");
+
+        copyButtons.forEach((button) => {
+          button.addEventListener("click", function () {
+            const url = this.getAttribute("data-url");
+            navigator.clipboard.writeText(url).then(() => {
+              // Visual feedback
+              this.innerHTML = '<i class="zmdi zmdi-check"></i>';
+              setTimeout(() => {
+                this.innerHTML = '<i class="zmdi zmdi-copy"></i>';
+              }, 2000);
+            });
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
