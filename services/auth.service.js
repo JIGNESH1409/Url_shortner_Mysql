@@ -81,7 +81,7 @@ export const createRefreshToken = (sessionID)=>{
 }
 
 export const findBySessionID=async(sessionID)=>{
-    const[session]= await db.select().from(sessionsTable).where(eq(sessionID,sessionsTable.id))
+    const[session]= await db.select().from(sessionsTable).where(eq(sessionsTable.id, sessionID))
     return session;
 
 }

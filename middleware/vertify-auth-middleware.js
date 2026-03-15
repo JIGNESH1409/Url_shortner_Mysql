@@ -26,22 +26,25 @@ export const verifyAuthentication = async (req, res, next) => {
     }
     catch(error){
       console.error("Access token verification failed:", error.message);
-
     }
-
   }
 
-  if(refreshToken){
-    const refreshed = await refreshTokens(refreshToken);
+  if(refreshToken && !req.user){
+    try{
+      const refreshed = await refreshTokens(refreshToken);
 
-    if(refreshed){
-      const {newAccessToken, newRefreshToken, userInfo} = refreshed;
-      req.user = userInfo;
+      if(refreshed){
+        const {newAccessToken, newRefreshToken, userInfo} = refreshed;
+        req.user = userInfo;
 
-      // Set new tokens in cookies only when refresh succeeds.
-      res.cookie("access_token", newAccessToken)
-      res.cookie("refresh_token", newRefreshToken)
-      return next();
+        // Set new tokens in cookies only when refresh succeeds.
+        res.cookie("access_token", newAccessToken)
+        res.cookie("refresh_token", newRefreshToken)
+      }
+    }
+    catch(error){
+      console.error("Refresh token error:", error.message);
+      req.user = null;
     }
   }
 

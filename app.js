@@ -46,6 +46,14 @@ app.use((req, res, next) => {
 app.use(authRouter);
 app.use(shorturlRouter);
 
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error("Global Error Handler:", err);
+  res.status(err.status || 500).render("error", { 
+    message: process.env.NODE_ENV === 'production' ? 'Internal Server Error' : err.message 
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
 });
