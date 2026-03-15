@@ -81,7 +81,7 @@
 
             <div class="shortened-urls">
               <h2 class="section-title">Shortened URLs</h2>
-              <% if(links && links.length > 0) { %>
+              <% if (typeof links !== 'undefined' && links && links.length > 0) { %>
               <ul class="url-list">
                 <% links.map(({id, shortCode, url}) => { %> <% const truncatedUrl =
                 url.length >= 30 ? `${url.slice(0,30)}...` : url %>

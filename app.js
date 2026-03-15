@@ -53,13 +53,6 @@ app.use((req, res, next) => {
 //? Views (like EJS, Pug, or Handlebars) can directly access user without manually passing it in every route.
 
 // express router
-app.get("/", (req, res) => {
-  if(req.user) {
-    return res.render("index");
-  }
-  res.redirect("/login");
-});
-
 app.use(authRouter);
 app.use(shorturlRouter);
 
