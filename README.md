@@ -1,5 +1,5 @@
 
-# URL Shortener (Node.js + MySQL) -https://url-shortner-mysql-3.onrender.com/
+# URL Shortener (Node.js + MySQL) -https://url-shortner-mysql.vercel.app/login
 
 A full‑stack URL Shortener application built with **Node.js, Express, EJS, and MySQL**, deployed using **Render** (backend) and **Railway** (database).
 
