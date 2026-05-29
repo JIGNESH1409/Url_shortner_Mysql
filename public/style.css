@@ -621,6 +621,264 @@ footer .social-links a:hover {
   border-radius: var(--radius-md);
 }
 
+/* About + Contact Pages */
+.page {
+  padding: var(--spacing-6) 0 var(--spacing-8);
+}
+
+.page-hero {
+  padding: var(--spacing-6) 0;
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(14, 165, 233, 0.12));
+  border-bottom: 0.1rem solid var(--border);
+}
+
+.page-hero.compact {
+  padding: var(--spacing-5) 0;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
+  gap: var(--spacing-6);
+  align-items: center;
+}
+
+.hero-copy {
+  max-width: 52rem;
+}
+
+.page-title {
+  font-size: 3.2rem;
+  line-height: 1.2;
+  margin: var(--spacing-2) 0 var(--spacing-3);
+  color: var(--foreground);
+}
+
+.page-subtitle {
+  font-size: 1.7rem;
+  color: var(--muted);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  margin-top: var(--spacing-4);
+}
+
+.btn-hero,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.1rem 2.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1.5rem;
+  cursor: pointer;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.btn-hero {
+  background: linear-gradient(135deg, #2563eb 0%, #0ea5e9 100%);
+  color: #fff;
+  box-shadow: 0 1rem 2.2rem rgba(37, 99, 235, 0.25);
+}
+
+.btn-hero:hover {
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: #fff;
+  color: var(--foreground);
+  border: 0.1rem solid rgba(0, 0, 0, 0.08);
+}
+
+.hero-panel {
+  display: grid;
+  gap: var(--spacing-3);
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  box-shadow: var(--shadow-md);
+}
+
+.stat-value {
+  display: block;
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 1.4rem;
+}
+
+.page-section {
+  padding: var(--spacing-6) 0;
+}
+
+.page-section.highlight {
+  background: #fff;
+  border-top: 0.1rem solid var(--border);
+  border-bottom: 0.1rem solid var(--border);
+}
+
+.section-header {
+  max-width: 62rem;
+  margin-bottom: var(--spacing-5);
+}
+
+.section-header h2 {
+  font-size: 2.4rem;
+  margin-bottom: var(--spacing-2);
+}
+
+.section-header p {
+  color: var(--muted);
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+  gap: var(--spacing-4);
+}
+
+.info-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  gap: var(--spacing-2);
+}
+
+.info-card i {
+  font-size: 2.2rem;
+  color: var(--accent);
+}
+
+.info-card h3 {
+  font-size: 1.8rem;
+}
+
+.info-card p {
+  color: var(--muted);
+  font-size: 1.4rem;
+}
+
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
+  gap: var(--spacing-6);
+  align-items: center;
+}
+
+.check-list {
+  list-style: none;
+  display: grid;
+  gap: var(--spacing-2);
+  color: var(--foreground);
+}
+
+.check-list i {
+  color: var(--success);
+  margin-right: 0.6rem;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  gap: var(--spacing-5);
+}
+
+.contact-form {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-5);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  gap: var(--spacing-3);
+}
+
+.contact-form p {
+  color: var(--muted);
+}
+
+.input-group {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.input-group input,
+.input-group textarea {
+  padding: 1.1rem 1.4rem;
+  border-radius: var(--radius-md);
+  border: 0.1rem solid var(--border);
+  font-size: 1.5rem;
+  font-family: "Urbanist";
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 0.3rem var(--ring);
+}
+
+.form-note {
+  font-size: 1.3rem;
+  color: var(--muted);
+}
+
+.contact-panel {
+  gap: var(--spacing-2);
+}
+
+.contact-card {
+  background: #fff;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-3);
+  box-shadow: var(--shadow-md);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--spacing-3);
+  align-items: center;
+}
+
+.contact-card i {
+  font-size: 2.2rem;
+  color: var(--accent);
+}
+
+.contact-label {
+  font-size: 1.3rem;
+  color: var(--muted);
+}
+
+.contact-value {
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+
 /* Responsive adjustments */
 @media screen and (max-width: 76.8rem) {
   .signin-content,

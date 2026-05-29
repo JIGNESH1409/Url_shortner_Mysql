@@ -1,21 +1,28 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
 
-const getDatabaseUrl = () => {
+const buildPoolConfig = () => {
     if (process.env.DATABASE_URL) {
         console.log('[DB] Using cloud database (Supabase)');
-        return process.env.DATABASE_URL;
+        return {
+            connectionString: process.env.DATABASE_URL,
+            ssl: { rejectUnauthorized: false }
+        };
     }
-    
-    // Fallback to local PostgreSQL for development
-    const localUrl = `postgresql://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || ''}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'url_shortener'}`;
+
     console.log('[DB] Using local database');
-    return localUrl;
+    return {
+        host: process.env.DB_HOST || 'localhost',
+        port: Number(process.env.DB_PORT || 5432),
+        user: process.env.DB_USER || 'postgres',
+        password: String(process.env.DB_PASSWORD ?? ''),
+        database: process.env.DB_NAME || 'url_shortener',
+        ssl: process.env.DB_SSL === "true" ? { rejectUnauthorized: false } : undefined
+    };
 };
 
-const databaseUrl = getDatabaseUrl();
 console.log('[DB] Connecting to database...');
-const pool = new Pool({ connectionString: databaseUrl, ssl: { rejectUnauthorized: false } });
+const pool = new Pool(buildPoolConfig());
 export const db = drizzle(pool);
 console.log('[DB] ✅ Database initialized');
 

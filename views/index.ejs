@@ -98,28 +98,23 @@
                     <span class="original-url"><%= truncatedUrl %></span>
                   </div>
                   <div class="url-actions">
-                    <button class="copy-btn edit-btn">
-                    <a href="/edit/<%= id %>" class="edit-btn">
+                    <a href="/edit/<%= id %>" class="copy-btn edit-btn" aria-label="Edit short link">
                       <i class="zmdi zmdi-edit"></i>
                     </a>
-                    </button>
                     <button
                       class="copy-btn"
                       data-url="<%= host %>/<%= shortCode %>"
+                      aria-label="Copy short link"
+                      type="button"
                     >
                       <i class="zmdi zmdi-copy"></i>
                     </button>
 
                     <form action="/delete/<%=id%>" method="post">
-                      <button class="copy-btn edit-btn">
-                      <i class="zmdi zmdi-delete"></i>
-                    </a>
-                    </button>
-
-
+                      <button class="copy-btn delete-btn" type="submit" aria-label="Delete short link">
+                        <i class="zmdi zmdi-delete"></i>
+                      </button>
                     </form>
-
-
                   </div>
                 </li>
                 <% }) %>
@@ -140,11 +135,13 @@
     <script>
       // Simple copy to clipboard functionality
       document.addEventListener("DOMContentLoaded", function () {
-        const copyButtons = document.querySelectorAll(".copy-btn");
+        const copyButtons = document.querySelectorAll(".copy-btn[data-url]");
 
         copyButtons.forEach((button) => {
           button.addEventListener("click", function () {
             const url = this.getAttribute("data-url");
+            if (!url) return;
+
             navigator.clipboard.writeText(url).then(() => {
               // Visual feedback
               this.innerHTML = '<i class="zmdi zmdi-check"></i>';

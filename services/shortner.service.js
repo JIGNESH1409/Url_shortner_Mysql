@@ -38,6 +38,21 @@ export const getLinkById = async (id) => {
     return link[0];
 };
 
+export const getLinkByIdForUser = async (id, userID) => {
+    const link = await db
+        .select()
+        .from(shortLink)
+        .where(and(eq(shortLink.id, id), eq(shortLink.userID, userID)));
+    return link[0];
+};
+
+export const updateLinkById = async ({ id, userID, url, shortUrl }) => {
+    return await db
+        .update(shortLink)
+        .set({ url, short_url: shortUrl })
+        .where(and(eq(shortLink.id, id), eq(shortLink.userID, userID)));
+};
+
 export const deleteById=async(id)=>{
     await db.delete(shortLink).where(eq(shortLink.id,id));
 }

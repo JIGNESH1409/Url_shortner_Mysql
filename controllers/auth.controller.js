@@ -8,9 +8,14 @@ import {registerSchema} from "../validator/auth-validator.js";
 import { createSession } from "../services/auth.service.js";
 import { createAccesToken } from "../services/auth.service.js";
 import { createRefreshToken } from "../services/auth.service.js";
-export const getRegisterpage = (req, res) => {
+import path from "path";
 
-    res.render("auth/register", { isLoggedIn: res.locals.isLoggedIn, errors: req.flash("error") });
+const wantsJson = (req) => {
+    const accept = req.headers.accept || "";
+    return req.xhr || req.is("application/json") || accept.includes("application/json");
+};
+export const getRegisterpage = (req, res) => {
+    return res.sendFile(path.resolve("public", "register.html"));
 }
 export const postRegisterpage = async(req, res) => {
     try {
@@ -19,7 +24,11 @@ export const postRegisterpage = async(req, res) => {
         const {data, error} = registerSchema.safeParse(req.body);
 
         if(error){
-            req.flash("error", error.errors[0].message);
+            const message = error.errors[0].message;
+            if (wantsJson(req)) {
+                return res.status(400).json({ error: message });
+            }
+            req.flash("error", message);
             return res.redirect("/register");
         }
 
@@ -29,7 +38,11 @@ export const postRegisterpage = async(req, res) => {
         console.log("USER EXIST =>", userExist);
 
         if(userExist) {
-            req.flash("error", "User already exists with this email");
+            const message = "User already exists with this email";
+            if (wantsJson(req)) {
+                return res.status(409).json({ error: message });
+            }
+            req.flash("error", message);
             return res.redirect("/register"); 
         }
 
@@ -37,17 +50,22 @@ export const postRegisterpage = async(req, res) => {
         const userCreate = await createUser(name, email, hashedpassword);
 
         console.log("USER CREATE =>", userCreate);
-        res.redirect("/login");
+        if (wantsJson(req)) {
+            return res.status(201).json({ ok: true });
+        }
+        return res.redirect("/login");
     } catch(err) {
         console.error("Registration Error:", err);
-        req.flash("error", "An error occurred during registration. Please try again.");
+        const message = "An error occurred during registration. Please try again.";
+        if (wantsJson(req)) {
+            return res.status(500).json({ error: message });
+        }
+        req.flash("error", message);
         return res.redirect("/register");
     }
 }
 export const getLoginpage = (req, res) => {
-
-
-    res.render("auth/login", { isLoggedIn: res.locals.isLoggedIn, errors: req.flash("error") });
+    return res.sendFile(path.resolve("public", "login.html"));
 }
 
 export const postLoginpage = async (req, res) => {
@@ -55,28 +73,44 @@ export const postLoginpage = async (req, res) => {
         const {data, error} = loginSchema.safeParse(req.body);
 
         if(error){
-            req.flash("error", error.errors[0].message);
+            const message = error.errors[0].message;
+            if (wantsJson(req)) {
+                return res.status(400).json({ error: message });
+            }
+            req.flash("error", message);
             return res.redirect("/login");
         }
 
         const {email, password} = data;
 
         if(email.trim() === "" || password.trim() === ""){
-            return res.render("auth/login", { isLoggedIn: res.locals.isLoggedIn, errors: ["Email and password are required"] })
+            const message = "Email and password are required";
+            if (wantsJson(req)) {
+                return res.status(400).json({ error: message });
+            }
+            return res.redirect("/login");
         }
 
         const userExist = await userCheckExist(email);
         console.log("USER EXIST =>", userExist);
 
         if(!userExist) {
-            req.flash("error", "Invalid email or password");
+            const message = "Invalid email or password";
+            if (wantsJson(req)) {
+                return res.status(401).json({ error: message });
+            }
+            req.flash("error", message);
             return res.redirect("/login"); 
         }
 
         const isPasswordMatch = await comparePassword(password, userExist.password);
         
         if(!isPasswordMatch){
-            req.flash("error", "Invalid email or password");
+            const message = "Invalid email or password";
+            if (wantsJson(req)) {
+                return res.status(401).json({ error: message });
+            }
+            req.flash("error", message);
             return res.redirect("/login");
         } 
         
@@ -105,10 +139,17 @@ export const postLoginpage = async (req, res) => {
         res.cookie("access_token", accesToken)
         res.cookie("refresh_token", refreshToken)
 
-        res.redirect("/");
+        if (wantsJson(req)) {
+            return res.status(200).json({ ok: true });
+        }
+        return res.redirect("/");
     } catch(err) {
         console.error("Login Error:", err);
-        req.flash("error", "An error occurred during login. Please try again.");
+        const message = "An error occurred during login. Please try again.";
+        if (wantsJson(req)) {
+            return res.status(500).json({ error: message });
+        }
+        req.flash("error", message);
         return res.redirect("/login");
     }
 }
@@ -116,8 +157,18 @@ export const postLoginpage = async (req, res) => {
 
 export const getMePage = (req, res) => {
     if (!req.user) {
+        const accept = req.headers.accept || "";
+        if (req.xhr || accept.includes("application/json")) {
+            return res.status(401).json({ error: "Please login first" });
+        }
         req.flash("error", "Please login first");
         return res.redirect("/login");
+    }
+    const accept = req.headers.accept || "";
+    if (req.xhr || accept.includes("application/json")) {
+        return res.status(200).json({
+            user: { id: req.user.id, name: req.user.name, email: req.user.email }
+        });
     }
     return res.send(`Your details - Name: ${req.user.name}, Email: ${req.user.email}`);
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Report</title>
+</head>
+<body>
+    <p id="report-text">Hello, this is your report page.</p>
+
+    <script>
+      fetch("/api/me", { headers: { "Accept": "application/json" } })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data && data.user && data.user.name) {
+            document.getElementById("report-text").textContent = `Hello ${data.user.name}, this is your report page.`;
+          }
+        })
+        .catch(() => {
+          document.getElementById("report-text").textContent = "Hello, this is your report page.";
+        });
+    </script>
+</body>
+</html>

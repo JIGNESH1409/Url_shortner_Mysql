@@ -16,9 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
-
-app.set("view engine", "ejs");
-// app.set("views", "./views")
+app.use(express.json());
 
 app.use(cookieParser());
 
@@ -70,16 +68,23 @@ app.use((err, req, res, next) => {
 });
 
 const startServer = async () => {
+  const allowStartWithoutDb = process.env.ALLOW_START_WITHOUT_DB === "true";
+
   try {
     await ensureDatabaseSchema();
     console.log("[DB] ✅ Schema check complete");
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
   } catch (error) {
     console.error("Failed to initialize database schema:", error);
-    process.exit(1);
+    if (!allowStartWithoutDb) {
+      process.exit(1);
+      return;
+    }
+    console.warn("[DB] ⚠️  Starting without a database connection");
   }
+
+  app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+  });
 };
 
 startServer();

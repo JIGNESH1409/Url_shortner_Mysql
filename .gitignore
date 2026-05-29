@@ -22,6 +22,9 @@ Thumbs.db
 dist/
 build/
 
+# Ignore nested sample app
+urlshortener/
+
 # Database
 *.db
 *.sqlite

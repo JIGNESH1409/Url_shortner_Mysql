@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/material-design-iconic-font@2.2.0/dist/css/material-design-iconic-font.min.css"
+    />
+    <title>Contact - URL Shortener</title>
+  </head>
+
+  <body>
+    <nav class="navbar">
+      <div class="navbar-inner">
+        <a href="/" class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">Welcome</span>
+        </a>
+
+        <ul class="navbar-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/contact.html">Contact</a></li>
+        </ul>
+
+        <div class="navbar-actions" id="navbar-actions"></div>
+      </div>
+    </nav>
+
+    <main class="page">
+      <section class="page-hero compact">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <p class="tag">Get in touch</p>
+            <h1 class="page-title">Let us build something together</h1>
+            <p class="page-subtitle">
+              Share your feedback or request a demo. We respond quickly with the details you need.
+            </p>
+          </div>
+          <div class="hero-panel contact-panel">
+            <div class="contact-card">
+              <i class="zmdi zmdi-phone"></i>
+              <div>
+                <p class="contact-label">Phone</p>
+                <p class="contact-value">+91 9099865407</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <i class="zmdi zmdi-email"></i>
+              <div>
+                <p class="contact-label">Email</p>
+                <p class="contact-value">jigneshpampaniya935@gmail.com</p>
+              </div>
+            </div>
+            <div class="contact-card">
+              <i class="zmdi zmdi-pin"></i>
+              <div>
+                <p class="contact-label">Location</p>
+                <p class="contact-value">Campus Innovation Lab</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page-section">
+        <div class="container">
+          <div class="contact-grid">
+            <form class="contact-form" id="contact-form">
+              <h2>Send a message</h2>
+              <p>Fill the form and we will reach out within 24 hours.</p>
+              <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required />
+              </div>
+              <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="you@example.com" required />
+              </div>
+              <div class="input-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="Project feedback" required />
+              </div>
+              <div class="input-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Tell us what you need" required></textarea>
+              </div>
+              <button type="submit" class="btn-hero">Send message</button>
+              <p class="form-note">This demo form does not send emails yet.</p>
+            </form>
+
+            <div class="contact-side">
+              <div class="info-card">
+                <i class="zmdi zmdi-time"></i>
+                <h3>Response time</h3>
+                <p>We typically respond within one working day.</p>
+              </div>
+              <div class="info-card">
+                <i class="zmdi zmdi-collection-text"></i>
+                <h3>Project scope</h3>
+                <p>Share your goals and we will suggest the best next steps.</p>
+              </div>
+              <div class="info-card">
+                <i class="zmdi zmdi-star-outline"></i>
+                <h3>Final year ready</h3>
+                <p>We can help tailor the demo and documentation for evaluation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="copyright">
+          &copy; <span id="footer-year"></span> Your Company. All rights reserved.
+        </div>
+        <div class="social-links">
+          <a href="#"><i class="zmdi zmdi-facebook"></i></a>
+          <a href="#"><i class="zmdi zmdi-twitter"></i></a>
+          <a href="#"><i class="zmdi zmdi-instagram"></i></a>
+          <a href="#"><i class="zmdi zmdi-linkedin"></i></a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/js/common.js"></script>
+    <script>
+      document.getElementById("contact-form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        event.target.reset();
+        alert("Thanks! Your message was recorded for this demo.");
+      });
+    </script>
+  </body>
+</html>
